@@ -15,9 +15,9 @@
 
     <div id="login-overlay" class="fixed inset-0 bg-slate-900 z-50 flex items-center justify-center p-4">
         <div class="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-sm text-center">
-            <h1 class="text-3xl font-black mb-2">Despedida de Solteiro do Daniel da Flora 🇪🇸</h1>
+            <h1 class="text-3xl font-black mb-2 text-slate-800">HOLA! 🇪🇸</h1>
             <input type="password" id="invite-code" class="w-full border-2 border-gray-200 p-3 rounded-xl mb-4 text-center outline-none" placeholder="Código de Acesso">
-            <button onclick="checkInvite()" class="w-full bg-yellow-500 text-white font-bold py-3 rounded-xl uppercase">Entrar</button>
+            <button onclick="checkInvite()" class="w-full bg-yellow-500 text-white font-bold py-3 rounded-xl uppercase tracking-wider">Entrar</button>
         </div>
     </div>
 
@@ -27,7 +27,7 @@
             <div class="flex justify-between items-center">
                 <div>
                     <p class="text-xs text-gray-400 uppercase font-bold">Etapa</p>
-                    <h2 id="display-etapa-nome" class="text-lg font-black text-slate-800">---</h2>
+                    <h2 id="display-etapa-nome" class="text-lg font-black text-slate-800 uppercase tracking-tight">---</h2>
                 </div>
                 <div class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full font-bold text-sm">
                     <span id="current-step-num">1</span>/10
@@ -52,15 +52,16 @@
 
         <div id="unlock-zone" class="bg-white p-6 rounded-2xl shadow-md border-t-4 border-slate-800 opacity-50 pointer-events-none transition-opacity">
             <h3 class="font-bold text-slate-700 mb-2">Próxima Paragem</h3>
-            <p class="text-xs text-gray-500 mb-4">Conclui as tarefas acima para inserir a senha:</p>
+            <p class="text-xs text-gray-500 mb-4">Insere a senha para avançar:</p>
             <input type="text" id="stage-pass" class="w-full border-2 border-gray-100 p-3 rounded-xl mb-4 text-center uppercase font-mono outline-none" placeholder="Senha">
-            <button onclick="verifyStagePass()" class="w-full bg-slate-800 text-white font-bold py-3 rounded-xl uppercase">Avançar</button>
+            <button onclick="verifyStagePass()" class="w-full bg-slate-800 text-white font-bold py-3 rounded-xl uppercase tracking-widest">Avançar</button>
         </div>
 
         <div id="final-screen" class="etapa-hidden text-center py-10 bg-white p-8 rounded-2xl shadow-xl">
-            <h2 class="text-6xl mb-4">🏆</h2>
-            <h2 class="text-2xl font-black italic">¡FIM DA AVENTURA!</h2>
-            <button onclick="resetGame()" class="mt-8 text-xs text-gray-400 underline uppercase">Reiniciar Tudo</button>
+            <h2 class="text-6xl mb-4 text-yellow-500">🏆</h2>
+            <h2 class="text-2xl font-black italic text-slate-800 uppercase">¡FIM DA AVENTURA!</h2>
+            <p class="text-gray-500 text-sm mt-2">O Daniel está (quase) casado.</p>
+            <button onclick="resetGame()" class="mt-10 text-xs text-gray-400 underline uppercase tracking-widest">Reiniciar Tudo</button>
         </div>
     </div>
 
@@ -74,15 +75,17 @@
             { nome: "Check-in Hotel", senha: "SURPRESA", img: "etapa6.JPG", tarefas: ["Deixar malas", "Banho rápido"] },
             { nome: "Museu (ou não)", senha: "TAPAS", img: "etapa7.JPG", tarefas: ["Chegar ao local"] },
             { nome: "Jantar de Tapas", senha: "SURPRESA", img: "etapa8.JPG", tarefas: ["Publicar foto", "Pedir Patcharan"] },
-            { nome: "A Caminho...", senha: "DISCO", img: "etapa9.JPG", tarefas: ["Feito"] },
+            { nome: "A Caminho...", senha: "DISCO", img: "etapa9.JPG", tarefas: ["Dançar na rua"] },
             { nome: "A Noite", senha: "FIM", img: "etapa10.JPG", tarefas: ["Entrar na Disco", "Dançar com coluna"] }
         ];
 
         let currentStep = 0;
+        const MASTER_PASS = "ADMIN";
 
         function checkInvite() {
             const val = document.getElementById('invite-code').value.trim().toUpperCase();
-            if(val === "MADRID") {
+            // Aceita a senha normal "MADRID" ou a master "ADMIN"
+            if(val === "MADRID" || val === MASTER_PASS) {
                 document.getElementById('login-overlay').style.display = 'none';
                 document.getElementById('game-content').classList.remove('etapa-hidden');
                 document.getElementById('game-content').style.opacity = '1';
@@ -97,7 +100,6 @@
             document.getElementById('etapa-img').src = etapa.img;
             document.getElementById('stage-pass').value = "";
             
-            // Mostrar/Esconder botão voltar
             document.getElementById('btn-voltar').style.visibility = currentStep === 0 ? 'hidden' : 'visible';
 
             const list = document.getElementById('tasks-list');
@@ -127,7 +129,8 @@
 
         function verifyStagePass() {
             const pass = document.getElementById('stage-pass').value.toUpperCase().trim();
-            if(pass === etapas[currentStep].senha) {
+            // Verifica se é a senha da etapa OU a senha mestre
+            if(pass === etapas[currentStep].senha || pass === MASTER_PASS) {
                 if(currentStep < etapas.length - 1) {
                     currentStep++;
                     updateUI();
@@ -136,7 +139,6 @@
             } else { alert("Senha incorreta!"); }
         }
 
-        // FUNÇÃO PARA VOLTAR
         function prevStep() {
             if(currentStep > 0) {
                 currentStep--;
@@ -160,7 +162,7 @@
             updateUI();
         }
         function resetGame() { 
-            if(confirm("Queres mesmo reiniciar todo o progresso?")) {
+            if(confirm("Reiniciar todo o progresso?")) {
                 localStorage.removeItem('madrid_tour_progress'); 
                 location.reload(); 
             }
