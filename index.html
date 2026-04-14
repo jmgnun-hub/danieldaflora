@@ -9,7 +9,6 @@
         body { background-color: #f4ece1; font-family: sans-serif; }
         .etapa-hidden { display: none; }
         .checkbox-custom { width: 24px; height: 24px; cursor: pointer; accent-color: #eab308; }
-        .task-done { text-decoration: line-through; color: #94a3b8; }
     </style>
 </head>
 <body class="pb-10">
@@ -40,8 +39,7 @@
 
         <div id="tasks-container" class="bg-white p-6 rounded-2xl shadow-md mb-6 border-l-4 border-yellow-500">
             <h3 class="font-bold text-slate-700 mb-4 uppercase text-sm tracking-widest">Tarefas Obrigatórias:</h3>
-            <div id="tasks-list" class="space-y-4">
-                </div>
+            <div id="tasks-list" class="space-y-4"></div>
         </div>
 
         <div id="unlock-zone" class="bg-white p-6 rounded-2xl shadow-md border-t-4 border-slate-800 opacity-50 pointer-events-none transition-opacity">
@@ -63,19 +61,20 @@
             { nome: "Aeroporto / Metro", senha: "BOCADILHO", img: "etapa1.JPG", tarefas: ["Comprar bilhete", "Apanhar metro certo"] },
             { nome: "O Pequeno Almoço", senha: "VERMUT", img: "etapa2.JPG", tarefas: ["Pedir em Espanhol", "Provar o Bocadillo", "Tirar foto do grupo"] },
             { nome: "Mercado San Miguel", senha: "COPA", img: "etapa3.JPG", tarefas: ["Encontrar banca do Vermut", "Brinde coletivo", "Publicar foto de vermut"] },
-            { nome: "Caminhada Central", senha: "MEXICO", img: "etapa4.JPG", tarefas: [ "Selfie com estátua", "pedir uma rodada pelo caminho"] },
+            { nome: "Caminhada Central", senha: "MEXICO", img: "etapa4.JPG", tarefas: ["Selfie com estátua", "Pedir uma rodada pelo caminho"] },
             { nome: "Almoço Mexicano", senha: "HOTEL", img: "etapa5.JPG", tarefas: ["Beber uma Margarita", "Beber uma cerveja mexicana", "Publicar foto de almoço"] },
             { nome: "Check-in Hotel", senha: "SURPRESA", img: "etapa6.JPG", tarefas: ["Deixar malas", "Banho rápido"] },
-            { nome: "Museu (ou não)", senha: "TAPAS", img: "etapa7.JPG", tarefas: ["Feito] },
+            { nome: "Museu (ou não)", senha: "TAPAS", img: "etapa7.JPG", tarefas: ["Chegar ao local"] },
             { nome: "Jantar de Tapas", senha: "SURPRESA", img: "etapa8.JPG", tarefas: ["Publicar foto", "Pedir Patcharan"] },
-            { nome: "A Caminho...", senha: "DISCO", img: "etapa9.JPG", tarefas: ["Feito] },
+            { nome: "A Caminho...", senha: "DISCO", img: "etapa9.JPG", tarefas: ["Dançar na rua"] },
             { nome: "A Noite", senha: "FIM", img: "etapa10.JPG", tarefas: ["Entrar na Disco", "Dançar com coluna"] }
         ];
 
         let currentStep = 0;
 
         function checkInvite() {
-            if(document.getElementById('invite-code').value.trim().toUpperCase() === "MADRID") {
+            const val = document.getElementById('invite-code').value.trim().toUpperCase();
+            if(val === "MADRID") {
                 document.getElementById('login-overlay').style.display = 'none';
                 document.getElementById('game-content').classList.remove('etapa-hidden');
                 document.getElementById('game-content').style.opacity = '1';
@@ -90,10 +89,9 @@
             document.getElementById('etapa-img').src = etapa.img;
             document.getElementById('stage-pass').value = "";
             
-            // Gerar Checklist
             const list = document.getElementById('tasks-list');
             list.innerHTML = "";
-            etapa.tarefas.forEach((tarefa, idx) => {
+            etapa.tarefas.forEach((tarefa) => {
                 list.innerHTML += `
                     <label class="flex items-center space-x-3 p-2 border-b border-gray-50">
                         <input type="checkbox" class="checkbox-custom task-item" onchange="checkTasks()">
@@ -106,7 +104,8 @@
         }
 
         function checkTasks() {
-            const allChecked = Array.from(document.querySelectorAll('.task-item')).every(cb => cb.checked);
+            const items = document.querySelectorAll('.task-item');
+            const allChecked = items.length > 0 && Array.from(items).every(cb => cb.checked);
             const zone = document.getElementById('unlock-zone');
             if(allChecked) {
                 zone.classList.remove('opacity-50', 'pointer-events-none');
@@ -116,7 +115,8 @@
         }
 
         function verifyStagePass() {
-            if(document.getElementById('stage-pass').value.toUpperCase().trim() === etapas[currentStep].senha) {
+            const pass = document.getElementById('stage-pass').value.toUpperCase().trim();
+            if(pass === etapas[currentStep].senha) {
                 if(currentStep < etapas.length - 1) {
                     currentStep++;
                     updateUI();
