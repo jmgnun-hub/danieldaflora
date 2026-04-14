@@ -75,7 +75,7 @@
         let currentStep = 0;
 
         function checkInvite() {
-            if(document.getElementById('invite-code').value.toUpperCase() === "MADRID") {
+            if(document.getElementById('invite-code').value.trim().toUpperCase() === "MADRID") {
                 document.getElementById('login-overlay').style.display = 'none';
                 document.getElementById('game-content').classList.remove('etapa-hidden');
                 document.getElementById('game-content').style.opacity = '1';
