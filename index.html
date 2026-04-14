@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Madrid Survival Tour - Checklist</title>
+    <title>Despedida de Solteiro do Daniel da Flora</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { background-color: #f4ece1; font-family: sans-serif; }
@@ -60,22 +60,22 @@
 
     <script>
         const etapas = [
-            { nome: "Aeroporto / Metro", senha: "MADRID", img: "etapa1.JPG", tarefas: ["Chegar ao terminal", "Comprar bilhete", "Apanhar metro certo"] },
-            { nome: "O Pequeno Almoço", senha: "BOCADILHO", img: "etapa2.JPG", tarefas: ["Pedir em Espanhol", "Provar o Bocadillo", "Tirar foto do grupo"] },
-            { nome: "Mercado San Miguel", senha: "VERMUT", img: "etapa3.JPG", tarefas: ["Encontrar banca do Vermut", "Brinde coletivo", "Comer uma tapa"] },
-            { nome: "Caminhada Central", senha: "COPA", img: "etapa4.JPG", tarefas: ["Ver a Plaza Mayor", "Selfie com estátua", "Não perder ninguém"] },
-            { nome: "Almoço Mexicano", senha: "MEXICO", img: "etapa5.JPG", tarefas: ["Beber uma Margarita", "Comer 2 Tacos", "Gritar ¡Arriba!"] },
-            { nome: "Check-in Hotel", senha: "HOTEL", img: "etapa6.JPG", tarefas: ["Deixar malas", "Banho rápido", "Beber água"] },
-            { nome: "Museu (ou não)", senha: "SURPRESA", img: "etapa7.JPG", tarefas: ["Ver fachada do museu", "Decidir se entram", "Caminhar 10 min"] },
-            { nome: "Jantar de Tapas", senha: "TAPAS", img: "etapa8.JPG", tarefas: ["Pedir Patatas Bravas", "Pedir Sangria", "Rir muito"] },
-            { nome: "A Caminho...", senha: "SURPRESA2", img: "etapa9.JPG", tarefas: ["Encontrar local secreto", "Dançar na rua", "Foto artística"] },
-            { nome: "A Noite", senha: "DISCO", img: "etapa10.JPG", tarefas: ["Entrar na Disco", "Beber um copo", "Sobreviver!"] }
+            { nome: "Aeroporto / Metro", senha: "BOCADILHO", img: "etapa1.JPG", tarefas: ["Chegar ao terminal", "Comprar bilhete", "Apanhar metro certo"] },
+            { nome: "O Pequeno Almoço", senha: "VERMUT", img: "etapa2.JPG", tarefas: ["Pedir em Espanhol", "Provar o Bocadillo", "Tirar foto do grupo"] },
+            { nome: "Mercado San Miguel", senha: "COPA", img: "etapa3.JPG", tarefas: ["Encontrar banca do Vermut", "Brinde coletivo", "Comer uma tapa"] },
+            { nome: "Caminhada Central", senha: "MEXICO", img: "etapa4.JPG", tarefas: ["Ver a Plaza Mayor", "Selfie com estátua", "Não perder ninguém"] },
+            { nome: "Almoço Mexicano", senha: "HOTEL", img: "etapa5.JPG", tarefas: ["Beber uma Margarita", "Comer 2 Tacos", "Gritar ¡Arriba!"] },
+            { nome: "Check-in Hotel", senha: "SURPRESA", img: "etapa6.JPG", tarefas: ["Deixar malas", "Banho rápido", "Beber água"] },
+            { nome: "Museu (ou não)", senha: "TAPAS", img: "etapa7.JPG", tarefas: ["Ver fachada do museu", "Decidir se entram", "Caminhar 10 min"] },
+            { nome: "Jantar de Tapas", senha: "SURPRESA", img: "etapa8.JPG", tarefas: ["Pedir Patatas Bravas", "Pedir Sangria", "Rir muito"] },
+            { nome: "A Caminho...", senha: "DISCO", img: "etapa9.JPG", tarefas: ["Encontrar local secreto", "Dançar na rua", "Foto artística"] },
+            { nome: "A Noite", senha: "FIM", img: "etapa10.JPG", tarefas: ["Entrar na Disco", "Beber um copo", "Sobreviver!"] }
         ];
 
         let currentStep = 0;
 
         function checkInvite() {
-            if(document.getElementById('invite-code').value.toUpperCase() === "START-MADRID") {
+            if(document.getElementById('invite-code').value.toUpperCase() === "MADRID") {
                 document.getElementById('login-overlay').style.display = 'none';
                 document.getElementById('game-content').classList.remove('etapa-hidden');
                 document.getElementById('game-content').style.opacity = '1';
