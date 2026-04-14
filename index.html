@@ -23,14 +23,22 @@
 
     <div id="game-content" class="max-w-md mx-auto p-4 opacity-0 transition-all etapa-hidden">
         
-        <header class="flex justify-between items-center mb-6 bg-white p-4 rounded-2xl shadow-sm border-b-4 border-yellow-500">
-            <div>
-                <p class="text-xs text-gray-400 uppercase font-bold">Etapa</p>
-                <h2 id="display-etapa-nome" class="text-lg font-black text-slate-800">---</h2>
+        <header class="bg-white p-4 rounded-2xl shadow-sm border-b-4 border-yellow-500 mb-6">
+            <div class="flex justify-between items-center">
+                <div>
+                    <p class="text-xs text-gray-400 uppercase font-bold">Etapa</p>
+                    <h2 id="display-etapa-nome" class="text-lg font-black text-slate-800">---</h2>
+                </div>
+                <div class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full font-bold text-sm">
+                    <span id="current-step-num">1</span>/10
+                </div>
             </div>
-            <div class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full font-bold text-sm">
-                <span id="current-step-num">1</span>/10
-            </div>
+            <button id="btn-voltar" onclick="prevStep()" class="mt-3 text-xs font-bold text-slate-400 uppercase flex items-center hover:text-slate-600 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15 19l-7-7 7-7" />
+                </svg>
+                Etapa Anterior
+            </button>
         </header>
 
         <div class="mb-6 rounded-2xl overflow-hidden shadow-xl bg-white p-2">
@@ -52,7 +60,7 @@
         <div id="final-screen" class="etapa-hidden text-center py-10 bg-white p-8 rounded-2xl shadow-xl">
             <h2 class="text-6xl mb-4">🏆</h2>
             <h2 class="text-2xl font-black italic">¡FIM DA AVENTURA!</h2>
-            <button onclick="resetGame()" class="mt-8 text-xs text-gray-400 underline uppercase">Reiniciar</button>
+            <button onclick="resetGame()" class="mt-8 text-xs text-gray-400 underline uppercase">Reiniciar Tudo</button>
         </div>
     </div>
 
@@ -66,7 +74,7 @@
             { nome: "Check-in Hotel", senha: "SURPRESA", img: "etapa6.JPG", tarefas: ["Deixar malas", "Banho rápido"] },
             { nome: "Museu (ou não)", senha: "TAPAS", img: "etapa7.JPG", tarefas: ["Chegar ao local"] },
             { nome: "Jantar de Tapas", senha: "SURPRESA", img: "etapa8.JPG", tarefas: ["Publicar foto", "Pedir Patcharan"] },
-            { nome: "A Caminho...", senha: "DISCO", img: "etapa9.JPG", tarefas: ["Feito"] },
+            { nome: "A Caminho...", senha: "DISCO", img: "etapa9.JPG", tarefas: ["Dançar na rua"] },
             { nome: "A Noite", senha: "FIM", img: "etapa10.JPG", tarefas: ["Entrar na Disco", "Dançar com coluna"] }
         ];
 
@@ -89,6 +97,9 @@
             document.getElementById('etapa-img').src = etapa.img;
             document.getElementById('stage-pass').value = "";
             
+            // Mostrar/Esconder botão voltar
+            document.getElementById('btn-voltar').style.visibility = currentStep === 0 ? 'hidden' : 'visible';
+
             const list = document.getElementById('tasks-list');
             list.innerHTML = "";
             etapa.tarefas.forEach((tarefa) => {
@@ -125,10 +136,20 @@
             } else { alert("Senha incorreta!"); }
         }
 
+        // FUNÇÃO PARA VOLTAR
+        function prevStep() {
+            if(currentStep > 0) {
+                currentStep--;
+                updateUI();
+                saveProgress();
+            }
+        }
+
         function showFinal() {
             document.getElementById('tasks-container').classList.add('etapa-hidden');
             document.getElementById('unlock-zone').classList.add('etapa-hidden');
             document.getElementById('etapa-img').parentElement.classList.add('etapa-hidden');
+            document.getElementById('btn-voltar').classList.add('etapa-hidden');
             document.getElementById('final-screen').classList.remove('etapa-hidden');
         }
 
@@ -138,7 +159,12 @@
             if(saved) currentStep = parseInt(saved);
             updateUI();
         }
-        function resetGame() { localStorage.removeItem('madrid_tour_progress'); location.reload(); }
+        function resetGame() { 
+            if(confirm("Queres mesmo reiniciar todo o progresso?")) {
+                localStorage.removeItem('madrid_tour_progress'); 
+                location.reload(); 
+            }
+        }
     </script>
 </body>
 </html>
